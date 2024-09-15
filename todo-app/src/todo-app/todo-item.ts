@@ -23,6 +23,7 @@ class TodoItem extends HTMLElement {
 
     const todoEditInput = this.querySelector('input[name="todo-edit-text"]') as HTMLInputElement;
     todoEditInput.addEventListener('blur', this.onEditInputBlur)
+    todoEditInput.addEventListener('keyup', this.onEditInputKeypress)
 
     const todoEditButton = this.querySelector('.todo-edit-button') as HTMLButtonElement;
     todoEditButton.addEventListener('click', this.enableEditMode);
@@ -80,6 +81,15 @@ class TodoItem extends HTMLElement {
     const input = event.currentTarget as HTMLInputElement;
     const updatedTaskText = input.value;
     this.updateTask(updatedTaskText);
+  }
+
+  onEditInputKeypress = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      const uneditedText = this.getCurrentTaskText();
+      const input = event.currentTarget as HTMLInputElement;
+      input.value = uneditedText;
+      this.changeMode('view')
+    }
   }
 
   getCurrentTaskText = () => {

@@ -24,7 +24,7 @@ class TodoApp extends HTMLElement {
 
   createTodosContainer() {
     const todosContainer = document.createElement('div');
-    todosContainer.classList.add('todos-container');
+    todosContainer.classList.add('tasks-container');
     this.appendChild(todosContainer);
   }
 
@@ -41,7 +41,7 @@ class TodoApp extends HTMLElement {
   addTodo(todoText: string) {
     const template = document.createElement('template');
     template.innerHTML = getAddTodoTemplate({ todoText });
-    const todosContainer = this.querySelector('.todos-container') as HTMLDivElement;
+    const todosContainer = this.querySelector('.tasks-container') as HTMLDivElement;
     todosContainer.appendChild(template.content);
   }
 }

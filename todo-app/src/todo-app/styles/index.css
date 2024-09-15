@@ -28,14 +28,30 @@ button {
   border: 0;
   border-radius: 0;
   background: transparent;
+  font-size: 1rem;
   line-height: 1;
   cursor: pointer;
+}
+
+input {
+  font-size: 1rem;
 }
 
 todo-app {
   display: block;
   max-width: 600px;
   margin: auto;
+}
+
+input[name="new-todo"] {
+  width: min(60vw, 300px);
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.6rem;
+  margin-top: 1.8rem;
 }
 
 todo-item {
@@ -89,7 +105,7 @@ todo-item:has(.checkbox-slot input:checked) {
 
 todo-item .checkbox-slot:has(:focus) .empty-checkbox,
 todo-item .checkbox-slot:has(:focus) .checkmark-icon {
-  outline: 2px solid blue;
+  outline: 2px solid;
   outline-offset: 1px;
 }
 
@@ -104,6 +120,10 @@ todo-item[data-mode="view"] .todo-edit-form {
 
 todo-item[data-mode="edit"] .todo-text {
   display: none;
+}
+
+todo-item input[name="todo-edit-text"] {
+  width: min(80%, 500px);
 }
 
 todo-item .control-buttons-slot {
