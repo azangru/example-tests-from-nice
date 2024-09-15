@@ -3,7 +3,7 @@
 }
 
 body {
-  max-width: 800px;
+  max-width: 600px;
   margin: auto;
   font-family: sans-serif;
 }
@@ -32,6 +32,11 @@ button {
   cursor: pointer;
 }
 
+todo-app {
+  display: block;
+  max-width: 600px;
+  margin: auto;
+}
 
 todo-item {
   display: grid;
@@ -63,6 +68,7 @@ todo-item .empty-checkbox {
 
 todo-item .checkmark-icon {
   fill: var(--color-green);
+  border-radius: 50%;
 }
 
 /* place the native checkbox over the styled one, and make it invisible */
@@ -81,6 +87,11 @@ todo-item:has(.checkbox-slot input:checked) {
   color: var(--color-green);
 }
 
+todo-item .checkbox-slot:has(:focus) .empty-checkbox,
+todo-item .checkbox-slot:has(:focus) .checkmark-icon {
+  outline: 2px solid blue;
+  outline-offset: 1px;
+}
 
 todo-item .todo-text {
   justify-self: start;
@@ -114,7 +125,13 @@ todo-item .todo-remove-button svg {
   fill: var(--color-red);
 }
 
-todo-item:hover .todo-remove-button {
+todo-item .todo-remove-button {
+  visibility: hidden;
+}
+
+todo-item:hover .todo-remove-button,
+todo-item:focus .todo-remove-button,
+todo-item:focus-within .todo-remove-button {
   visibility: visible;
 }
 
@@ -127,14 +144,20 @@ todo-item:hover .todo-remove-button {
   todo-item .todo-edit-button {
     display: none;
   }
-
-  todo-item .todo-remove-button {
-    visibility: hidden;
-  }
 }
 
 @media (hover: none) {
-  body {
-    background: yellow;
+  todo-item .todo-edit-button {
+    display: none;
+  }
+
+  todo-item:focus .todo-edit-button,
+  todo-item:focus-within .todo-edit-button {
+    display: initial;
+  }
+
+  /* no need to click the todo text to edit */
+  todo-item .todo-text {
+    pointer-events: none;
   }
 }

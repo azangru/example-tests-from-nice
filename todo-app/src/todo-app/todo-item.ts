@@ -135,7 +135,7 @@ export const getAddTodoTemplate = ({todoText, completed = false}: {
   const styledCheckbox = completed ? getCheckmarkTemplate() : getEmptyCheckboxTemplate();
 
   return `
-    <todo-item data-mode="view">
+    <todo-item data-mode="view" tabindex=0>
       <span class="checkbox-slot">
         <span class="styled-checkbox-slot">
           ${styledCheckbox}
