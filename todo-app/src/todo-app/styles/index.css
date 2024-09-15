@@ -84,10 +84,55 @@ todo-item:has(.checkbox-slot input:checked) {
 
 todo-item .todo-text {
   justify-self: start;
+  color: inherit;
 }
 
+todo-item[data-mode="view"] .todo-edit-form {
+  display: none;
+}
+
+todo-item[data-mode="edit"] .todo-text {
+  display: none;
+}
+
+todo-item .control-buttons-slot {
+  display: flex;
+  column-gap: 0.6rem;
+}
+
+todo-item .control-buttons-slot button {
+  width: 1.2rem;
+  height: 1.2rem; 
+}
+
+todo-item .control-buttons-slot svg {
+  width: 100%;
+  height: 100%;
+}
+
+todo-item .todo-remove-button svg {
+  fill: var(--color-red);
+}
+
+todo-item:hover .todo-remove-button {
+  visibility: visible;
+}
+
+.hidden {
+  display: none;
+}
 
 /* make sure delete button on todo items is accessible on devices without hover-capable input mechanism */
+@media (hover: hover) {
+  todo-item .todo-edit-button {
+    display: none;
+  }
+
+  todo-item .todo-remove-button {
+    visibility: hidden;
+  }
+}
+
 @media (hover: none) {
   body {
     background: yellow;
