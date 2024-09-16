@@ -6,6 +6,7 @@ body {
   max-width: 600px;
   margin: auto;
   font-family: sans-serif;
+  padding-bottom: 90px;
 }
 
 :root {
@@ -153,6 +154,25 @@ todo-item:hover .todo-remove-button,
 todo-item:focus .todo-remove-button,
 todo-item:focus-within .todo-remove-button {
   visibility: visible;
+}
+
+todo-app-footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 3rem;
+  padding: 0.6rem 0.4rem;
+  border-top: 1px solid var(--color-light-grey);
+  border-bottom: 1px solid var(--color-light-grey);
+}
+
+todo-app-footer .complete-all {
+  justify-self: center;
+}
+
+todo-app-footer .clear-completed {
+  justify-self: end;
+  color: #0c4f72;
+  text-decoration: underline dashed;
 }
 
 .hidden {

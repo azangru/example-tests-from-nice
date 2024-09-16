@@ -1,16 +1,29 @@
 import { getAddTodoTemplate } from './todo-item';
+import { getTodoFooterTemplate } from './todo-app-footer';
 
 class TodoApp extends HTMLElement {
+
+  totalTasksCount = 0;
+  completedTasksCount = 0;
 
   constructor() {
     super();
 
     this.initialiseElements();
+    this.setupListeners();
   }
 
   initialiseElements() {
     this.createNewTodoInput();
     this.createTodosContainer();
+    this.createTodoAppFooter();
+  }
+
+  setupListeners() {
+    this.addEventListener('task-added', this.onTodoAdded);
+    this.addEventListener('task-removed', this.onTodoRemoved);
+    this.addEventListener('completed', this.onTodoCompleted);
+    this.addEventListener('uncompleted', this.onTodoUncompleted);
   }
 
   createNewTodoInput() {
@@ -28,6 +41,12 @@ class TodoApp extends HTMLElement {
     this.appendChild(todosContainer);
   }
 
+  createTodoAppFooter() {
+    const templateElement = document.createElement('template');
+    templateElement.innerHTML = getTodoFooterTemplate();
+    this.appendChild(templateElement.content);
+  }
+
   onTodoCreate = (event: SubmitEvent) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
@@ -35,7 +54,6 @@ class TodoApp extends HTMLElement {
     const todoText = input.value.trim();
     input.value = '';
     this.addTodo(todoText);
-    console.log('new todo', todoText);
   };
 
   addTodo(todoText: string) {
@@ -43,6 +61,38 @@ class TodoApp extends HTMLElement {
     template.innerHTML = getAddTodoTemplate({ todoText });
     const todosContainer = this.querySelector('.tasks-container') as HTMLDivElement;
     todosContainer.appendChild(template.content);
+  }
+
+  setTotalTasksCount = (count: number) => {
+    this.totalTasksCount = count;
+    this.updateFooter();
+  }
+
+  setCompletedTasksCount = (count: number) => {
+    this.completedTasksCount = count;
+    this.updateFooter();
+  }
+
+  onTodoAdded = () => {
+    this.setTotalTasksCount(this.totalTasksCount + 1);
+  }
+
+  onTodoRemoved = () => {
+    this.setTotalTasksCount(this.totalTasksCount - 1);
+  }
+
+  onTodoCompleted = () => {
+    this.setCompletedTasksCount(this.completedTasksCount + 1);
+  }
+
+  onTodoUncompleted = () => {
+    this.setCompletedTasksCount(this.completedTasksCount - 1);
+  }
+
+  updateFooter = () => {
+    const todoAppFooter = this.querySelector('todo-app-footer') as HTMLElement;
+    todoAppFooter.setAttribute('completed-tasks', `${this.completedTasksCount}`);
+    todoAppFooter.setAttribute('total-tasks', `${this.totalTasksCount}`);
   }
 }
 

@@ -6,9 +6,9 @@ class TodoItem extends HTMLElement {
   }
 
   connectedCallback() {
-
+    const taskAddedEvent = new CustomEvent('task-added', { bubbles: true });
+    this.dispatchEvent(taskAddedEvent);
   }
-
   
   setupListeners() {
     this.addEventListener('change', this.onCompletedChange);
@@ -119,14 +119,25 @@ class TodoItem extends HTMLElement {
   markAsCompleted = () => {
     const styledCheckboxSlot = this.querySelector('.styled-checkbox-slot') as HTMLElement;
     styledCheckboxSlot.innerHTML = getCheckmarkTemplate();
+    this.setAttribute('completed', '');
+
+    const completedEvent = new CustomEvent('completed', { bubbles: true });
+    this.dispatchEvent(completedEvent);
   }
 
   markAsUncompleted = () => {
     const styledCheckboxSlot = this.querySelector('.styled-checkbox-slot') as HTMLElement;
     styledCheckboxSlot.innerHTML = getEmptyCheckboxTemplate();
+    this.removeAttribute('completed');
+
+    const uncompletedEvent = new CustomEvent('uncompleted', { bubbles: true });
+    this.dispatchEvent(uncompletedEvent);
   }
 
   destroy = () => {
+    const taskRemovedEvent = new CustomEvent('task-removed', { bubbles: true });
+    this.dispatchEvent(taskRemovedEvent);
+
     this.remove();
   }
 

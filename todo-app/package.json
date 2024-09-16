@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "vite ./src",
+    "build": "vite build",
     "test": "playwright test ./tests/todo-app.spec.ts --ui --project chromium"
   },
   "keywords": [],
