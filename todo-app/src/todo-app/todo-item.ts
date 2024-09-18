@@ -1,4 +1,4 @@
-class TodoItem extends HTMLElement {
+export class TodoItem extends HTMLElement {
 
   constructor() {
     super();

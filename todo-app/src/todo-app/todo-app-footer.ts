@@ -57,7 +57,7 @@ class TodoAppFooter extends HTMLElement {
     const { completedTasksCount, totalTasksCount } = this;
     const completeAllCheckbox = this.querySelector('input[name="complete-all-tasks"]') as HTMLInputElement;
 
-    if (completedTasksCount === totalTasksCount) {
+    if (totalTasksCount > 0 && completedTasksCount === totalTasksCount) {
       completeAllCheckbox.checked = true;
     } else if (completeAllCheckbox.checked) {
       completeAllCheckbox.checked = false;
@@ -84,12 +84,16 @@ class TodoAppFooter extends HTMLElement {
     clearCompletedButton.addEventListener('click', this.onClearCompleted);
   }
 
-  onCompleteAllChange = () => {
-
+  onCompleteAllChange = (event: Event) => {
+    const input = event.currentTarget as HTMLInputElement;
+    const shouldCompleteAll = input.checked;
+    const outgoingEvent = new CustomEvent('complete-all', { bubbles: true, detail: { shouldCompleteAll } });
+    this.dispatchEvent(outgoingEvent);
   }
 
   onClearCompleted = () => {
-
+    const event = new CustomEvent('clear-completed', { bubbles: true });
+    this.dispatchEvent(event);
   }
 
 }

@@ -1,4 +1,4 @@
-import { getAddTodoTemplate } from './todo-item';
+import { getAddTodoTemplate, TodoItem } from './todo-item';
 import { getTodoFooterTemplate } from './todo-app-footer';
 
 class TodoApp extends HTMLElement {
@@ -24,6 +24,8 @@ class TodoApp extends HTMLElement {
     this.addEventListener('task-removed', this.onTodoRemoved);
     this.addEventListener('completed', this.onTodoCompleted);
     this.addEventListener('uncompleted', this.onTodoUncompleted);
+    this.addEventListener('complete-all', this.onCompleteAll);
+    this.addEventListener('clear-completed', this.onClearCompleted);
   }
 
   createNewTodoInput() {
@@ -77,7 +79,13 @@ class TodoApp extends HTMLElement {
     this.setTotalTasksCount(this.totalTasksCount + 1);
   }
 
-  onTodoRemoved = () => {
+  onTodoRemoved = (event: Event) => {
+    const todoItem = event.target as TodoItem;
+    const isTodoCompleted = todoItem.hasAttribute('completed');
+
+    if (isTodoCompleted) {
+      this.setCompletedTasksCount(this.completedTasksCount - 1);
+    }
     this.setTotalTasksCount(this.totalTasksCount - 1);
   }
 
@@ -87,6 +95,29 @@ class TodoApp extends HTMLElement {
 
   onTodoUncompleted = () => {
     this.setCompletedTasksCount(this.completedTasksCount - 1);
+  }
+
+  onCompleteAll = (event: Event) => {
+    const shouldCompleteAll = (event as CustomEvent).detail.shouldCompleteAll;
+    const todoItemsCheckboxes = this.querySelectorAll('todo-item input[name="task-completed"]');
+    if (shouldCompleteAll) {
+      todoItemsCheckboxes.forEach(checkbox => {
+        (checkbox as HTMLInputElement).checked = true;
+        const event = new Event('change', { bubbles: true });
+        checkbox.dispatchEvent(event);
+      });
+    } else {
+      todoItemsCheckboxes.forEach(checkbox => {
+        (checkbox as HTMLInputElement).checked = false;
+        const event = new Event('change', { bubbles: true });
+        checkbox.dispatchEvent(event);
+      });
+    }
+  }
+
+  onClearCompleted = () => {
+    const completedItems = this.querySelectorAll('todo-item[completed]');
+    completedItems.forEach(item => (item as TodoItem).destroy());
   }
 
   updateFooter = () => {
