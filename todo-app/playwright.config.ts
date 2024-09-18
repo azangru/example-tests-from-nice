@@ -11,11 +11,14 @@ export default defineConfig({
   ],
 
   // Run your local dev server before starting the tests
-  webServer: {
-    command: 'echo HELLO && npm run start',
-    url: `http://localhost:${vitePort}`,
-    reuseExistingServer: !process.env.CI,
-    stdout: 'ignore',
-    stderr: 'pipe',
+  // webServer: {
+  //   command: 'npm run start',
+  //   url: `http://localhost:${vitePort}`,
+  //   reuseExistingServer: !process.env.CI,
+  //   stdout: 'ignore',
+  //   stderr: 'pipe',
+  // },
+  use: {
+    baseURL: `http://localhost:${vitePort}`,
   },
 });
